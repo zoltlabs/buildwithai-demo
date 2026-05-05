@@ -67,9 +67,9 @@ export const weeks = [
   {
     num: "06",
     tag: "Autonomy",
-    title: "Codex Symphony",
-    titleEm: "Walkthrough",
-    desc: "An autonomous engineer that takes a ticket, plans, builds, reviews, tests, and opens a PR — with minimal hand-holding. The ceiling of what agents can do today.",
+    title: "OpenClaw",
+    titleEm: "Team",
+    desc: "Your agent, multiplied. Multiple OpenClaw instances plan, build, review, and ship in parallel — the architecture behind Codex Symphony. This is the ceiling.",
     topics: [
       "Orchestrating the ticket → PR pipeline",
       "Self-review and the sprint structure",
