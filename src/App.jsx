@@ -3,6 +3,7 @@ import Nav from "./components/Nav.jsx";
 import Hero from "./components/Hero.jsx";
 import Strip from "./components/Strip.jsx";
 import Curriculum from "./components/Curriculum.jsx";
+import UseCases from "./components/UseCases.jsx";
 import Closing from "./components/Closing.jsx";
 import Footer from "./components/Footer.jsx";
 
@@ -28,6 +29,7 @@ export default function App() {
       <Nav />
       <Hero />
       <Strip />
+      <UseCases />
       <Curriculum />
       <Closing />
       <Footer />
