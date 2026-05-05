@@ -7,12 +7,12 @@ export default function Curriculum() {
       <div className="section-header reveal">
         <div className="num">§ Curriculum</div>
         <h2>
-          Five weeks. One <em>agent</em> that grows.
+          Four weeks. One <em>agent</em> that grows.
         </h2>
         <div className="lead">
           Every week you ship something real and add a new capability to the
-          same agent. By week five it can plan, build, review, and open PRs on
-          its own.
+          same agent. By week four it can browse, remember, write code, and
+          run tasks in parallel — built entirely with AI.
         </div>
       </div>
 

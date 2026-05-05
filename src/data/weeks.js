@@ -17,7 +17,7 @@ export const weeks = [
     tag: "Tools",
     title: "Build Your",
     titleEm: "Agent's Tools",
-    desc: "Give your agent real capabilities — shell access, API calls, and review skills wired to GitHub and Linear. Context engineering determines what it sees; tools determine what it can do.",
+    desc: "Give your agent real capabilities — shell access, API calls, and skills wired to the tools your team already uses. Context engineering determines what it sees; tools determine what it can do.",
     topics: [
       "Context engineering in practice",
       "Skills with strict input/output contracts",
@@ -30,12 +30,12 @@ export const weeks = [
     tag: "Memory",
     title: "Build Your",
     titleEm: "Agent's Memory",
-    desc: "Make your agent remember. Persistent memory across sessions, retrieval strategies, and the judgment to know what's worth keeping.",
+    desc: "Make your agent remember. Persistent memory across sessions, retrieval strategies, and the judgment to know what's worth keeping — so it gets smarter every time you use it.",
     topics: [
       "Memory types — episodic, semantic, procedural",
       "Retrieval and context injection",
       "When to store, when to forget",
-      "Computer use and screenshot loops",
+      "Building a personal knowledge base",
     ],
   },
   {
@@ -43,25 +43,12 @@ export const weeks = [
     tag: "Multi-agent",
     title: "Build Your",
     titleEm: "Agent Team",
-    desc: "Give your agent a team. Subagents browse, screenshot, and run tasks in parallel while your orchestrator keeps the plan. Stream results to a live UI.",
+    desc: "Give your agent a team. Subagents browse, screenshot, write code, and run tasks in parallel. Your orchestrator keeps the plan. Stream it all to a live UI.",
     topics: [
       "Subagents and orchestration",
-      "Sandboxed code execution",
+      "Computer use and screenshot loops",
       "Streaming output to a live UI",
-      "Parallel work without stepping on yourself",
-    ],
-  },
-  {
-    num: "05",
-    tag: "Autonomy",
-    title: "Build at",
-    titleEm: "the Ceiling",
-    desc: "The full autonomous loop — ticket to PR, self-review, parallel sprints, and the eval that tells you if your agent is actually getting better. Studied through Codex Symphony.",
-    topics: [
-      "Orchestrating the ticket → PR pipeline",
-      "Self-review and confidence scoring",
-      "Evals and LLM-as-judge",
-      "Parallel sprints with git worktrees",
+      "Sandboxed code execution",
     ],
   },
 ];
