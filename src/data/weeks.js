@@ -27,8 +27,8 @@ export const weeks = [
   },
   {
     num: "03",
-    tag: "Personal Agent",
-    title: "OpenClaw",
+    tag: "Core",
+    title: "Personal Agent",
     titleEm: "Core",
     desc: "Build your own Claude Code-style agent from scratch. Shell access, file editing, API calls, and persistent memory — the foundation every week builds on.",
     topics: [
@@ -40,8 +40,8 @@ export const weeks = [
   },
   {
     num: "04",
-    tag: "Personal Agent",
-    title: "OpenClaw",
+    tag: "Multi-agent",
+    title: "Personal Agent",
     titleEm: "Multi-agent",
     desc: "Give your agent a team. Subagents browse the web, take screenshots, and run tasks in parallel while your orchestrator keeps the plan.",
     topics: [
@@ -53,8 +53,8 @@ export const weeks = [
   },
   {
     num: "05",
-    tag: "Personal Agent",
-    title: "OpenClaw",
+    tag: "Autonomy",
+    title: "Personal Agent",
     titleEm: "Autonomy",
     desc: "Make it self-directing. Add self-review, confidence scoring, and the eval loop that tells you whether your agent is getting better or worse.",
     topics: [
@@ -67,9 +67,9 @@ export const weeks = [
   {
     num: "06",
     tag: "Autonomy",
-    title: "OpenClaw",
+    title: "Personal Agent",
     titleEm: "Team",
-    desc: "Your agent, multiplied. Multiple OpenClaw instances plan, build, review, and ship in parallel — the architecture behind Codex Symphony. This is the ceiling.",
+    desc: "Your agent, multiplied. Multiple instances plan, build, review, and ship in parallel — the architecture behind Codex Symphony. This is the ceiling.",
     topics: [
       "Orchestrating the ticket → PR pipeline",
       "Self-review and the sprint structure",
