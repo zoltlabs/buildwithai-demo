@@ -7,11 +7,11 @@ export default function Curriculum() {
       <div className="section-header reveal">
         <div className="num">§ Curriculum</div>
         <h2>
-          Four weeks. Four <em>real</em> projects.
+          Six weeks. One <em>evolving</em> agent.
         </h2>
         <div className="lead">
-          Each week is a single buildable project. You leave with working code,
-          not slides.
+          Weeks 1–2 are standalone projects. Weeks 3–5 add capabilities to the
+          same personal agent. Week 6 is the ceiling of what agents can do today.
         </div>
       </div>
 

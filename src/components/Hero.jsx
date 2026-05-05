@@ -4,7 +4,7 @@ export default function Hero() {
       <div className="container">
         <div className="hero-meta">
           <span className="pip"></span>
-          <span>Cohort 01 · Four weeks · Live + async</span>
+          <span>Cohort 01 · Six weeks · Live + async</span>
         </div>
         <h1>
           <span className="l1">Build </span>
@@ -14,7 +14,7 @@ export default function Hero() {
         </h1>
         <div className="hero-sub">
           <p>
-            A four-week curriculum for people who want to{" "}
+            A six-week curriculum for people who want to{" "}
             <span className="accent">actually ship</span> with Claude Code and
             Codex — not just prompt around.
           </p>
