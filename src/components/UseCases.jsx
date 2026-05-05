@@ -37,11 +37,10 @@ export default function UseCases() {
       <div className="section-header reveal">
         <div className="num">§ What You'll Build</div>
         <h2>
-          Your agent. <em>Your rules.</em>
+          Learn to build <em>with AI.</em>
         </h2>
         <div className="lead">
-          The architecture is the same. What you point it at is entirely up to
-          you.
+          The skills to ship anything — and build AI products from scratch.
         </div>
       </div>
 
