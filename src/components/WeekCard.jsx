@@ -9,6 +9,9 @@ export default function WeekCard({ week }) {
         {week.title} <em>{week.titleEm}</em>
       </h3>
       <p className="desc">{week.desc}</p>
+      {week.wow && (
+        <blockquote className="wow">{week.wow}</blockquote>
+      )}
       <ul className="topics">
         {week.topics.map((t) => (
           <li key={t}>{t}</li>

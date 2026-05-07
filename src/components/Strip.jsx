@@ -3,21 +3,20 @@ export default function Strip() {
     <section className="container">
       <div className="strip reveal">
         <div className="strip-item">
-          <div className="label">01 / Who it's for</div>
-          <div className="body">No specific background required.</div>
+          <div className="label">Four weeks</div>
+          <div className="body">One evolving agent. A new capability every week. You leave with something you'd actually use.</div>
         </div>
         <div className="strip-item">
-          <div className="label">02 / How it runs</div>
+          <div className="label">Four flavors</div>
           <div className="body">
-            Watch short prereqs. Build live together. Reinforce with assignments
-            on your own time. Same rhythm every week.
+            Dev, Research, Work, or Personal. Pick your agent on day one and
+            build it out across all four weeks.
           </div>
         </div>
         <div className="strip-item">
-          <div className="label">03 / What you leave with</div>
+          <div className="label">Two skills</div>
           <div className="body">
-            Four shipped projects, a personal skills library, and a stack you
-            can bring back to your projects.
+            Build faster with AI. Build AI products from scratch. Both, in four weeks.
           </div>
         </div>
       </div>

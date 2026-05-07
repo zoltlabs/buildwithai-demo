@@ -272,72 +272,80 @@ nav {
   line-height: 1.45;
 }
 
-/* USE CASES */
-.usecases {
+/* FLAVORS */
+.flavors {
   padding: 110px 0 0;
 }
-.usecases-grid {
+.flavors-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 0;
   border-top: 1px solid var(--rule);
   border-left: 1px solid var(--rule);
 }
-.usecase-card {
+.flavor-card {
   border-right: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
-  padding: 32px 30px 36px;
+  padding: 36px 34px 40px;
   transition: background 0.3s ease;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
-.usecase-card::before {
+.flavor-card::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 0;
-  background: var(--highlight);
+  background: var(--accent);
   transition: height 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.usecase-card:hover {
+.flavor-card:hover {
   background: var(--paper-soft);
 }
-.usecase-card:hover::before {
+.flavor-card:hover::before {
   height: 3px;
 }
-.usecase-tag {
+.flavor-tag {
   font-family: "JetBrains Mono", monospace;
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--ink-soft);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
-.usecase-title {
+.flavor-title {
   font-family: "Instrument Serif", serif;
-  font-size: 26px;
-  line-height: 1.1;
+  font-size: 32px;
+  line-height: 1.05;
   letter-spacing: -0.01em;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
-.usecase-body {
-  font-size: 15px;
+.flavor-desc {
+  font-size: 16px;
   color: var(--ink-soft);
   line-height: 1.55;
+  flex: 1;
+}
+.flavor-by4 {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px dashed rgba(28, 24, 20, 0.25);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.flavor-by4-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
 }
 
-@media (max-width: 880px) {
-  .usecases-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 540px) {
-  .usecases-grid {
+@media (max-width: 700px) {
+  .flavors-grid {
     grid-template-columns: 1fr;
-  }
-  .usecase-card {
-    padding: 26px 22px 28px;
   }
 }
 
@@ -452,6 +460,17 @@ nav {
   margin-bottom: 28px;
   max-width: 420px;
 }
+.wow {
+  font-family: "Newsreader", Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  border-left: 2px solid var(--accent);
+  padding: 6px 0 6px 14px;
+  margin: 0 0 20px;
+}
+
 .topics {
   list-style: none;
   margin-top: auto;
