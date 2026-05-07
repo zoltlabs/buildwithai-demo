@@ -3,29 +3,29 @@ const flavors = [
     id: "dev",
     tag: "For engineers",
     title: "The Dev Agent",
-    desc: "Reviews PRs, triages issues, runs tests, and explains errors. Points at your GitHub repos and knows your codebase.",
-    by4: "Autonomously reviews a PR, posts inline comments, and opens a fix branch.",
+    desc: "Reads your codebase, runs your tests, triages your issues. Knows your conventions and your stack.",
+    by4: "Reads 6 months of GitHub issues, identifies the three highest-impact bugs, writes the fixes, runs the tests, and opens PRs — while you sleep.",
   },
   {
     id: "research",
     tag: "For knowledge workers",
     title: "The Research Agent",
-    desc: "Browses the web, reads papers and articles, and builds a sourced brief on any topic — the kind of work everyone does manually today.",
-    by4: "You give it a topic. It comes back with a complete, sourced brief while you were in a meeting.",
+    desc: "Browses, reads, and synthesizes. Give it a topic and come back to a finished brief.",
+    by4: "Spins up 8 browser agents in parallel, each crawling a different source. Delivers a structured brief with direct quotes, screenshots, and citations — before your next meeting.",
   },
   {
     id: "work",
     tag: "For operators + founders",
     title: "The Work Agent",
-    desc: "Reads your Linear, GitHub, and email. Extracts what needs doing, drafts responses, and tracks what you said you'd follow up on.",
-    by4: "Starts every morning by telling you the three things that actually need your attention today.",
+    desc: "Reads your Linear, GitHub, and calendar. Knows what's on fire before you do.",
+    by4: "Every morning: reads your board, flags what's about to slip, drafts the three messages that need to go out, and tells you the one thing that actually needs your attention today.",
   },
   {
     id: "personal",
     tag: "You define it",
-    title: "The Personal Agent",
-    desc: "Fitness, learning, creative work, journaling — whatever you actually want an agent for. The architecture is the same. The use case is yours.",
-    by4: "An agent that knows you well enough to be useful without being asked.",
+    title: "Your Agent",
+    desc: "Fitness, learning, creative work — whatever you actually want an agent for. The architecture is the same. The use case is yours.",
+    by4: "Tracks your goals, notices your patterns, and remembers what you said mattered — across every session, getting sharper every time you use it.",
   },
 ];
 
@@ -33,13 +33,13 @@ export default function Flavors() {
   return (
     <section className="flavors container" id="flavors">
       <div className="section-header reveal">
-        <div className="num">§ Pick Your Agent</div>
+        <div className="num">§ Build Your Way</div>
         <h2>
-          One architecture. <em>Four agents.</em>
+          Your agent. <em>Your use case.</em>
         </h2>
         <div className="lead">
-          Pick your flavor on day one. Every week you add a new capability
-          to the same agent.
+          The architecture is identical every week. What you build it
+          for is entirely up to you.
         </div>
       </div>
 

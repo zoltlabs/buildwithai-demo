@@ -29,8 +29,8 @@ export default function App() {
       <Nav />
       <Hero />
       <Strip />
-      <Flavors />
       <Curriculum />
+      <Flavors />
       <Closing />
       <Footer />
     </>
