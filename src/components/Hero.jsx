@@ -14,9 +14,8 @@ export default function Hero() {
         </h1>
         <div className="hero-sub">
           <p>
-            A four-week curriculum for people who want to{" "}
-            <span className="accent">actually ship</span> with Claude Code and
-            Codex — not just prompt around.
+            A four-week curriculum on{" "}
+            <span className="accent">building</span> with Claude Code and Codex.
           </p>
           <div className="hero-actions">
             <a href="#apply" className="btn btn-solid">

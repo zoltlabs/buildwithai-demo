@@ -1,38 +1,21 @@
-import { useEffect } from "react";
-import Nav from "./components/Nav.jsx";
-import Hero from "./components/Hero.jsx";
-import Strip from "./components/Strip.jsx";
-import Curriculum from "./components/Curriculum.jsx";
-import Flavors from "./components/Flavors.jsx";
-import Closing from "./components/Closing.jsx";
-import Footer from "./components/Footer.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home.jsx";
+import CourseLayout from "./layouts/CourseLayout.jsx";
+import CourseOverview from "./pages/CourseOverview.jsx";
+import WeekPage from "./pages/WeekPage.jsx";
+import Throughlines from "./pages/Throughlines.jsx";
 
 export default function App() {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("in");
-            observer.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.12 }
-    );
-    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <>
-      <Nav />
-      <Hero />
-      <Strip />
-      <Curriculum />
-      <Flavors />
-      <Closing />
-      <Footer />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/course" element={<CourseLayout />}>
+          <Route index element={<CourseOverview />} />
+          <Route path="week/:slug" element={<WeekPage />} />
+          <Route path="throughlines" element={<Throughlines />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }

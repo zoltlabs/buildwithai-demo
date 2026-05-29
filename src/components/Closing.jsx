@@ -3,11 +3,12 @@ export default function Closing() {
     <section className="closing container" id="apply">
       <div className="reveal">
         <h2>
-          Ship four things. <em>Bring them home.</em>
+          Leave with a working agent and the skills to{" "}
+          <em>keep building.</em>
         </h2>
         <p>
-          Cohort 01 starts soon. Spaces are limited so the live sessions stay
-          small enough to be useful.
+          Cohort 01 has a limited number of spaces so the live sessions stay
+          small. Apply below to join.
         </p>
         <a href="mailto:hello@buildwith.ai" className="btn btn-solid">
           Apply now →

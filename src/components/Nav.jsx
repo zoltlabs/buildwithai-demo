@@ -1,15 +1,17 @@
+import { Link } from "react-router-dom";
+
 export default function Nav() {
   return (
     <nav>
       <div className="container">
         <div className="nav-inner">
-          <div className="brand">
+          <Link to="/" className="brand">
             <span className="mark"></span>
             <span>Build with AI</span>
-          </div>
+          </Link>
           <div className="nav-links">
             <a href="#curriculum">Curriculum</a>
-            <a href="#tools">Tools</a>
+            <Link to="/course">Course</Link>
             <a href="#apply" className="cta">
               Apply →
             </a>

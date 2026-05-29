@@ -3,29 +3,29 @@ const flavors = [
     id: "dev",
     tag: "For engineers",
     title: "The Dev Agent",
-    desc: "Reads your codebase, runs your tests, triages your issues. Knows your conventions and your stack.",
-    by4: "Reads 6 months of GitHub issues, identifies the three highest-impact bugs, writes the fixes, runs the tests, and opens PRs — while you sleep.",
+    desc: "Reads your codebase, runs your tests, and triages your issues, following your conventions and your stack.",
+    by4: "It reads months of GitHub issues, identifies the highest-impact bugs, writes and tests the fixes, and opens pull requests without supervision.",
   },
   {
     id: "research",
     tag: "For knowledge workers",
     title: "The Research Agent",
-    desc: "Browses, reads, and synthesizes. Give it a topic and come back to a finished brief.",
-    by4: "Spins up 8 browser agents in parallel, each crawling a different source. Delivers a structured brief with direct quotes, screenshots, and citations — before your next meeting.",
+    desc: "Browses, reads, and synthesizes sources. Give it a topic and it returns a finished brief.",
+    by4: "It runs several browser agents in parallel, each crawling a different source, then delivers a structured brief with quotes, screenshots, and citations.",
   },
   {
     id: "work",
-    tag: "For operators + founders",
+    tag: "For operators and founders",
     title: "The Work Agent",
-    desc: "Reads your Linear, GitHub, and calendar. Knows what's on fire before you do.",
-    by4: "Every morning: reads your board, flags what's about to slip, drafts the three messages that need to go out, and tells you the one thing that actually needs your attention today.",
+    desc: "Reads your Linear, GitHub, and calendar so it can tell you what needs attention.",
+    by4: "Each morning it reads your board, flags what is about to slip, drafts the messages that need to go out, and tells you the one thing that needs your attention.",
   },
   {
     id: "personal",
     tag: "You define it",
     title: "Your Agent",
-    desc: "Fitness, learning, creative work — whatever you actually want an agent for. The architecture is the same. The use case is yours.",
-    by4: "Tracks your goals, notices your patterns, and remembers what you said mattered — across every session, getting sharper every time you use it.",
+    desc: "Fitness, learning, or creative work, whatever you want an agent for. The architecture is the same; the use case is yours.",
+    by4: "It tracks your goals, notices your patterns, and remembers what you said mattered, getting more useful with every session.",
   },
 ];
 
@@ -35,11 +35,11 @@ export default function Flavors() {
       <div className="section-header reveal">
         <div className="num">§ Build Your Way</div>
         <h2>
-          Your agent. <em>Your use case.</em>
+          Build it for your <em>own use case.</em>
         </h2>
         <div className="lead">
-          The architecture is identical every week. What you build it
-          for is entirely up to you.
+          The architecture is the same every week. What you build it for is up
+          to you.
         </div>
       </div>
 
@@ -50,7 +50,7 @@ export default function Flavors() {
             <div className="flavor-title">{f.title}</div>
             <p className="flavor-desc">{f.desc}</p>
             <div className="flavor-by4">
-              <span className="flavor-by4-label">By week 4 —</span> {f.by4}
+              <span className="flavor-by4-label">By week 4:</span> {f.by4}
             </div>
           </div>
         ))}

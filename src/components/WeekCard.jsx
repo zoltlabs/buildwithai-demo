@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 export default function WeekCard({ week }) {
   return (
-    <article className="week reveal">
+    <Link to={`/course/week/${week.slug}`} className="week reveal">
       <div className="week-head">
         <span className="week-num">Week {week.num}</span>
         <span className="week-tag">{week.tag}</span>
@@ -9,14 +11,13 @@ export default function WeekCard({ week }) {
         {week.title} <em>{week.titleEm}</em>
       </h3>
       <p className="desc">{week.desc}</p>
-      {week.wow && (
-        <blockquote className="wow">{week.wow}</blockquote>
-      )}
+      {week.wow && <blockquote className="wow">{week.wow}</blockquote>}
       <ul className="topics">
-        {week.topics.map((t) => (
+        {week.cardTopics.map((t) => (
           <li key={t}>{t}</li>
         ))}
       </ul>
-    </article>
+      <span className="week-open">Open week {week.slug} →</span>
+    </Link>
   );
 }

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
     <footer>
@@ -6,6 +8,7 @@ export default function Footer() {
           <div>© 2026 ByteByteGo Inc · Build with AI · Cohort 01</div>
           <div>
             <a href="#curriculum">Curriculum</a>
+            <Link to="/course">Course</Link>
             <a href="#apply">Apply</a>
             <a href="mailto:hello@buildwith.ai">Contact</a>
           </div>
