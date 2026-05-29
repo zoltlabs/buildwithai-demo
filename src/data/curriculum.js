@@ -181,12 +181,138 @@ You can read files, list directories, and run shell commands.
         body: "Write a skill that, given a description of what you want a skill to do, produces a well-formed skill with correct input/output contracts. This is a compounding artifact; every future skill you write will be faster because of it.",
         deliverable:
           "A working skill-writer skill. Test it by using it to generate one of the skills from the main project.",
+        hints: [
+          "Have the skill-writer settle the input and output shape first. A skill is only as good as its contract.",
+          "Put a clear, specific description on every field. That text is what the model, and future you, will read.",
+          "Generate the skill, then immediately run it on one real input. If the output does not parse against the schema, the contract is wrong, not the model.",
+          "Keep one skill to one job. If the description needs the word 'and' twice, it is probably two skills.",
+        ],
+        example: {
+          label: "Skill produced by the skill-writer",
+          format: "code",
+          content: `// Asked the skill-writer:
+//   "A skill that turns a raw support email into a structured triage:
+//    category, urgency, the team that should own it, and a summary."
+//
+// It produced this skill, following the project's conventions:
+
+// src/skills/triage-email.ts
+import { z } from "zod";
+import { generateObject } from "ai";
+import { openai } from "@ai-sdk/openai";
+
+export const TriageEmailInputSchema = z.object({
+  from: z.string().describe("Sender email address"),
+  subject: z.string().describe("Email subject line"),
+  body: z.string().describe("Full plain-text body of the email"),
+});
+
+export const TriageEmailOutputSchema = z.object({
+  category: z
+    .enum(["bug", "billing", "feature-request", "how-to", "other"])
+    .describe("The single best-fit category"),
+  urgency: z.number().int().min(1).max(5).describe("1 = drop everything, 5 = whenever"),
+  owner: z.string().describe("Owning team: support, eng, or billing"),
+  summary: z.string().describe("One sentence a busy person can act on"),
+});
+
+export type TriageEmailInput = z.infer<typeof TriageEmailInputSchema>;
+export type TriageEmailOutput = z.infer<typeof TriageEmailOutputSchema>;
+
+export async function triageEmail(input: TriageEmailInput): Promise<TriageEmailOutput> {
+  const { from, subject, body } = TriageEmailInputSchema.parse(input);
+  const { object } = await generateObject({
+    model: openai("gpt-5.4-mini"),
+    schema: TriageEmailOutputSchema,
+    prompt: \`Triage this support email. Pick one category, set urgency 1-5,
+name the owning team, and write a one-line summary.
+
+From: \${from}
+Subject: \${subject}
+
+\${body}\`,
+  });
+  return object;
+}
+
+// Registered in src/skills/index.ts:
+//   triageEmail: {
+//     name: "triage-email",
+//     description: "Turn a support email into a structured triage",
+//     inputSchema: TriageEmailInputSchema,
+//     outputSchema: TriageEmailOutputSchema,
+//     run: triageEmail,
+//   }`,
+        },
+        referencesNote:
+          "In this course a skill is a typed function with a strict Zod input/output contract, like the skills in the main project. The guides below describe the same principles (clear descriptions, progressive disclosure, tight contracts, and testing before you trust it), even where their artifact format differs from a typed function.",
+        references: [
+          {
+            label: "Anthropic: Skill authoring best practices",
+            url: "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+          },
+          {
+            label:
+              "Anthropic: Equipping agents for the real world with Agent Skills",
+            url: "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills",
+          },
+          {
+            label: "anthropics/skills: example skills on GitHub",
+            url: "https://github.com/anthropics/skills",
+          },
+          {
+            label: "agentskills.io: the open Agent Skills specification",
+            url: "https://agentskills.io/specification",
+          },
+          {
+            label:
+              "OpenAI: Function calling guide (strict mode and structured outputs)",
+            url: "https://platform.openai.com/docs/guides/function-calling",
+          },
+        ],
       },
       {
         title: "Computer Use with Playwright",
         body: "Configure the Playwright MCP (claude mcp add playwright npx @playwright/mcp@latest). Have your agent navigate to a real app you use, click through a user flow, take screenshots, and file a structured bug report on what it finds. Reference: Simon Willison's Playwright MCP setup walkthrough.",
         deliverable:
           "A markdown bug report produced entirely by your agent, with screenshots, filed against a real app.",
+        hints: [
+          "Set up the Playwright MCP first and confirm the agent can open a page before you ask it to walk a flow.",
+          "Give it one specific user flow to follow, not 'test the app'. A single path produces a clear report.",
+          "Ask it to capture a screenshot at each step and reference the files in the report. The screenshots are the evidence.",
+          "Point it at a real app you use, on a flow you suspect is fragile. Real friction makes a better report than a toy site.",
+        ],
+        example: {
+          label: "Example bug report (Markdown)",
+          format: "code",
+          content: `# Bug: "Add to cart" silently fails for out-of-stock variants
+
+App: shop.example.com (staging)
+Found by: my-agent via the Playwright MCP
+Date: 2026-05-20
+Severity: High. Blocks purchase with no feedback to the user.
+
+## Steps to reproduce
+1. Open the product page for "Trail Runner" (/products/trail-runner).
+2. Select size "US 8", which is currently out of stock.
+3. Click "Add to cart".
+
+## Expected
+The button is disabled, or an "Out of stock" message appears.
+
+## Actual
+The button shows a brief spinner and then nothing. The cart count stays at 0
+and no error is shown. POST /api/cart returns 409, which the UI ignores.
+
+## Evidence
+- screenshot 01-variant-selected.png: size US 8 selected, button still enabled
+- screenshot 02-after-click.png: cart still empty, no message shown
+- console: "Uncaught (in promise) 409 Conflict" at cart.js:142
+
+## Notes
+In-stock variants add to cart correctly, so this is specific to the
+out-of-stock path. The 409 handler appears to never have been wired to the UI.`,
+        },
       },
     ],
     optional: [
@@ -281,12 +407,117 @@ You can read files, list directories, and run shell commands.
         body: "Use your subagent setup to build a research brief generator. Give the orchestrator a topic. It should spin up multiple subagents (one per source/angle), each doing focused research, then synthesize results into a structured brief.",
         deliverable:
           "A research brief produced by parallel subagents. Show the individual subagent outputs and the final merged synthesis.",
+        hints: [
+          "Give each subagent one angle or source, not the whole topic. Parallel work only helps if the work is actually divided.",
+          "Make the orchestrator's job synthesis, not research. It reads the subagent outputs and reconciles them, including where they disagree.",
+          "Return a typed brief (summary, key points, sources, gaps, recommendation) so the output is usable, not a wall of text.",
+          "Keep the subagent outputs visible. Being able to trace a claim back to the subagent that found it is the point.",
+        ],
+        example: {
+          label: "Example research brief",
+          format: "code",
+          content: `# Research brief: should we adopt MCP for our internal tools?
+
+The orchestrator was given the topic above. It ran three subagents in
+parallel, one per angle, then synthesized their outputs into the brief below.
+
+## Subagent outputs (run in parallel)
+
+Subagent A: what MCP is and its current state
+MCP is an open standard for how agents discover and call external tools. It is
+now widely adopted across major agent platforms, with both hosted and
+self-hosted servers available.
+
+Subagent B: cost and effort to adopt for our stack
+Connecting a hosted server is a few lines of code. Building our own server to
+expose internal tools is a small project, not a large one. The main cost is
+writing good tool descriptions, not the wiring.
+
+Subagent C: risks and alternatives
+The main risk is over-exposing internal actions to agents without guardrails.
+The alternative, hand-written one-off integrations, is faster for a single
+tool but does not compose and has to be rebuilt for every agent.
+
+## Synthesis
+
+Summary: adopting MCP is low-effort and high-leverage for our internal tools,
+as long as we scope what each server is allowed to expose.
+
+Key points:
+- Consuming hosted servers is nearly free to try.
+- Exposing our own tools as one server lets every agent reuse them.
+- The real work is tool descriptions and access scoping, not plumbing.
+
+Sources: subagent A (standard and adoption), B (effort), C (risks).
+
+Gaps: no firsthand numbers on our specific tool latency under MCP. Worth a
+small spike before committing.
+
+Recommendation: run a one-week spike exposing two internal tools through one
+MCP server, behind read-only scopes, then decide.`,
+        },
       },
       {
         title: "Deploy to a Sandbox",
-        body: "Get your agent running in an isolated environment it can't escape from. Options: E2B, Modal, or a local Docker container. Experience what real production agent infrastructure looks like before you need it.",
+        body: "Get your agent running in an isolated environment it can't escape from. We recommend E2B, a cloud sandbox built for agents with a free tier. A local Docker container works as a no-account fallback, and Modal is an option if you prefer Python or need GPUs. Experience what real production agent infrastructure looks like before you need it.",
         deliverable:
           "An agent running in a sandbox you can invoke remotely. Document the setup in a README.",
+        hints: [
+          "Start the agent in the sandbox with the narrowest permissions that still let it do the task. You can always widen them later.",
+          "Treat the sandbox as disposable. Boot it, run the task, tear it down. Do not keep state in it you cannot afford to lose.",
+          "Get one remote invocation working end to end before adding anything else: send a prompt, run in the sandbox, return the result.",
+          "Write the README as you go. The setup steps you had to work out are exactly what the deliverable documents.",
+        ],
+        example: {
+          label: "Example setup README",
+          format: "code",
+          content: `# Running my-agent in an E2B sandbox
+
+This documents how to run the agent inside an isolated cloud sandbox you can
+invoke remotely, so an agent with shell access never runs unbounded on your
+own machine.
+
+## Why a sandbox
+The agent can run shell commands. A sandbox bounds the blast radius: it is
+isolated, disposable, and separate from your laptop.
+
+## Prerequisites
+- An E2B account and API key (the free tier includes credits).
+- Node 18 or newer.
+
+## 1. Install
+   npm i e2b
+
+## 2. Set your key
+   export E2B_API_KEY=e2b_your_key_here
+
+## 3. Boot a sandbox and run the agent inside it
+   import { Sandbox } from "e2b";
+
+   const sandbox = await Sandbox.create();      // isolated microVM, boots in ~200ms
+   await sandbox.files.write("/agent/index.js", agentSource);
+   const result = await sandbox.commands.run(
+     "node /agent/index.js 'summarize the open issues in repo X'"
+   );
+   console.log(result.stdout);
+   await sandbox.kill();
+
+## 4. Invoke it remotely
+Wrap the script above in a small endpoint, or a CLI you can run from anywhere.
+You send a prompt, the sandbox runs the agent, and you get the result back.
+The sandbox is torn down when the run finishes.
+
+## Local fallback (no account)
+If you would rather not sign up, run the same agent inside a local Docker
+container instead:
+   docker build -t my-agent .
+   docker run --rm -e OPENAI_API_KEY my-agent "your prompt"
+This gives you isolation but not the remote, production-like experience.
+
+## Alternative
+Modal is a good fit if you prefer Python or need GPUs. The idea is the same:
+the agent runs in an isolated environment, not on your machine.`,
+        },
       },
     ],
     optional: [

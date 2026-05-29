@@ -129,6 +129,30 @@ export default function WeekPage() {
                   </div>
                 </details>
               )}
+
+              {a.references && a.references.length > 0 && (
+                <details className="cw-disclosure">
+                  <summary>References</summary>
+                  <div className="cw-disclosure-body">
+                    {a.referencesNote && (
+                      <p className="cw-ref-note">{a.referencesNote}</p>
+                    )}
+                    <ul className="cw-refs">
+                      {a.references.map((r, j) => (
+                        <li key={j}>
+                          <a
+                            href={r.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {r.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </details>
+              )}
             </div>
           ))}
         </div>
