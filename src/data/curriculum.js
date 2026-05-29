@@ -612,6 +612,82 @@ the agent runs in an isolated environment, not on your machine.`,
         body: "Wire up observability to your running agent (Sentry, PostHog, or a simple structured log). Build an eval suite with at least 3 test cases against your agent using LLM-as-judge. Finalize your AGENTS.md and skills documentation.",
         deliverable:
           "A repo that a new teammate could clone, read the docs, and be productive with your agent setup within 30 minutes.",
+        hints: [
+          "Judge with a strong model, and not the same instance you are testing. A model grading itself leans toward its own answers.",
+          "Make the judge reason before it scores, and judge only against an explicit rubric. A bare 1 to 5 with no criteria is noise.",
+          "Use a small discrete scale (1 to 5) and a clear pass line. Choose a few cases that actually failed before, so the suite catches regressions.",
+          "Spot-check the judge against your own opinion on a handful of cases. If you disagree often, fix the rubric, not the score.",
+        ],
+        example: {
+          label: "LLM-as-judge eval for the summarize skill",
+          format: "code",
+          content: `// Three test cases, plus a judge that scores each output against a rubric.
+
+// eval/dataset.json
+[
+  {
+    "id": "decisions-captured",
+    "input": "meeting-notes/q2-planning.txt",
+    "rubric": "List every decision made and name an owner for each action item. No invented items."
+  },
+  {
+    "id": "handles-no-decisions",
+    "input": "meeting-notes/status-sync.txt",
+    "rubric": "This meeting made no decisions. The summary must say so, not invent one."
+  },
+  {
+    "id": "stays-concise",
+    "input": "meeting-notes/long-retro.txt",
+    "rubric": "Under 200 words, and it leads with the most important outcome."
+  }
+]
+
+// eval/judge.ts
+import { z } from "zod";
+import { generateObject } from "ai";
+import { openai } from "@ai-sdk/openai";
+
+const VerdictSchema = z.object({
+  reasoning: z.string().describe("Check the output against the rubric point by point, before scoring"),
+  score: z.number().int().min(1).max(5).describe("1 = fails the rubric, 5 = fully meets it"),
+  passed: z.boolean().describe("True only when the score is 4 or 5"),
+});
+
+export async function judge(rubric: string, input: string, output: string) {
+  const { object } = await generateObject({
+    model: openai("gpt-5.4"),               // judge with a strong model, not the one under test
+    schema: VerdictSchema,
+    prompt: [
+      "You are grading an agent's output against a rubric.",
+      "Reason point by point first, then score. Judge only against the rubric.",
+      "",
+      "RUBRIC: " + rubric,
+      "INPUT: " + input,
+      "OUTPUT: " + output,
+    ].join("\\n"),
+  });
+  return object;
+}
+
+// Sample run (npm run eval):
+//   decisions-captured     score=5  pass  "all 3 decisions listed, every action item has an owner"
+//   handles-no-decisions   score=2  FAIL  "invented a decision that was not in the notes"
+//   stays-concise          score=4  pass  "180 words, leads with the launch date"
+//
+//   2/3 passed. Regression: 'handles-no-decisions' broke after the last prompt change.`,
+        },
+        referencesNote:
+          "An LLM-as-judge eval uses a model to score another model's output against a rubric. The reliable pattern is a separate strong judge model, an explicit rubric, reasoning before the score, a small discrete scale, and spot-checking the judge against your own ratings. Watch for position, verbosity, and self-preference bias.",
+        references: [
+          {
+            label: "Hugging Face: Using LLM-as-a-judge for evaluation (cookbook)",
+            url: "https://huggingface.co/learn/cookbook/en/llm_judge",
+          },
+          {
+            label: "Hugging Face evaluation guidebook: model-as-a-judge basics",
+            url: "https://github.com/huggingface/evaluation-guidebook/blob/main/contents/model-as-a-judge/basics.md",
+          },
+        ],
       },
     ],
     optional: [
@@ -726,7 +802,7 @@ export const throughlineTracks = [
       ["Week 1 · Reads & reasons", 'my-agent reads a folder of PRDs/specs plus an exported tickets file. Ask "what\'s the state of the checkout redesign?" or "which open tickets mention latency?" and get cited answers. Your AGENTS.md encodes your role, your product area, your definition of done, and how you like status phrased.'],
       ["Week 2 · Takes action", "Build triage-feedback (raw feedback in, { theme, severity, affectedFeature, suggestedTicket } out) and write-release-notes (closed tickets in, an impact-grouped changelog out). Connect the Linear MCP so it can read tickets and, on approval, create them. Expose my-agent as an MCP server so teammates can call your \"product brain\" as a tool."],
       ["Week 3 · Remembers", 'Persist product decisions and their rationale, stakeholders and what each cares about, and recurring customer themes over time, so it can say "this is the fourth SSO request this quarter." Parallel subagents run competitive fan-out (one per competitor) merged into a single brief.'],
-      ["Week 4 · Runs on its own", "An 8am roadmap digest (overnight Linear changes, blockers, the one decision that needs you today) streamed to the React UI. A Playwright browser subagent pulls competitor changelog and pricing pages for a weekly brief. Drafted tickets wait in an approval queue you clear from Slack or your phone."],
+      ["Week 4 · Runs on its own", "An 8am roadmap digest (overnight Linear changes, blockers, the one decision that needs you today) streamed to the agent's browser surface at /approvals. A Playwright browser subagent pulls competitor changelog and pricing pages for a weekly brief. Drafted tickets wait in an approval queue you clear in the browser (or wire up Slack or iMessage if you want push notifications)."],
     ],
   },
   {
@@ -737,7 +813,7 @@ export const throughlineTracks = [
       ["Week 1 · Reads & reasons", 'my-agent reads a folder of meeting notes and docs (optionally a calendar/inbox export). Ask "what\'s on my plate today, and what do I need walking into the 10am?" Your AGENTS.md encodes your role, your key people, your communication style, and hard rules like "never auto-send to the exec team."'],
       ["Week 2 · Takes action", "Build prebrief-meeting (an event plus linked docs in, { attendees, context, openItems, talkingPoints } out) and draft-followup (meeting notes in, a follow-up email plus owned action items out). Connect the Google Calendar MCP and optionally Gmail. Expose my-agent as MCP so other tools can ask \"what's on my plate Thursday?\""],
       ["Week 3 · Remembers", "Use the people schema ({ name, relationship, lastMentioned, commitments[], notes }) plus recurring-meeting context and your formatting preferences. Subagents gather across calendar, docs, and tickets in parallel to assemble one prep doc."],
-      ["Week 4 · Runs on its own", "The 8am morning digest (calendar plus open tasks plus what needs attention), meeting-prep heartbeats 15 minutes before each event, delivered via Slack or iMessage. Drafted follow-up emails wait for approval before sending."],
+      ["Week 4 · Runs on its own", "The 8am morning digest (calendar plus open tasks plus what needs attention) and meeting-prep heartbeats 15 minutes before each event, surfaced in the agent's /approvals browser tab by default (Slack or iMessage are optional push channels for when you want a phone notification). Drafted follow-up emails wait in the approval queue before sending."],
     ],
   },
 ];
